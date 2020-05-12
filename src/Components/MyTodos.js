@@ -28,9 +28,11 @@ class MyTodos extends Component {
     }
 
     async componentDidMount() {
-        this.setState({
-            todos: this.allStorage(),
-        });
+        if(localStorage){
+            this.setState({
+                todos: this.allStorage(),
+            });
+        }
     }
 
     async del(id) {
