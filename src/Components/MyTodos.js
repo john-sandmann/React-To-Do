@@ -50,7 +50,7 @@ class MyTodos extends Component {
 
                         <Button
                             className='delete_button'
-                            variant='success'
+                            variant='danger'
                             style={{
                                 'float': 'right'
                             }}
