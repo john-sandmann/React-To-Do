@@ -15,8 +15,13 @@ class MyNavbar extends Component {
     }
 
     async add(texto) {
-        localStorage.setItem(this.makeid(10), texto);
-        window.location.reload();
+        if(localStorage){
+            localStorage.setItem(this.makeid(10), texto);
+            window.location.reload();
+        }
+        else{
+            alert('Your browser does not support localStorage');
+        }
     }
 
     makeid(length) {
