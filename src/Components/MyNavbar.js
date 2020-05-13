@@ -28,10 +28,6 @@ class MyNavbar extends Component {
         }
     }
 
-    componentDidMount(){
-        console.log(this.state.date);
-    }
-
     makeid(length) {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
