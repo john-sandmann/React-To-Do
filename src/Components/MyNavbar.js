@@ -7,16 +7,17 @@ class MyNavbar extends Component {
         super(props);
 
         this.state = {
-            todo_to_add: ''
+            todo_to_add: '',
+            status: 'urgent',
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.makeid = this.makeid.bind(this);
     }
 
-    async add(texto) {
+    async add(texto, status) {
         if(localStorage){
-            localStorage.setItem(this.makeid(10), texto);
+            localStorage.setItem(this.makeid(10), JSON.stringify({texto: texto, status: status}));
             window.location.reload();
         }
         else{
@@ -34,10 +35,10 @@ class MyNavbar extends Component {
         return result;
     }
 
-    handleSubmit(texto, event) {
+    handleSubmit(texto, status, event) {
         event.preventDefault();
         if (texto !== undefined && texto.length !== 0) {
-            this.add(texto);
+            this.add(texto, status);
         }
     }
 
@@ -49,7 +50,12 @@ class MyNavbar extends Component {
                 </Navbar.Brand>
                 <Form inline>
                     <FormControl onChange={(event) => this.setState({ todo_to_add: event.target.value })} type="text" placeholder="Write here" className="mr-sm-2" />
-                    <Button variant="outline-success" onClick={(event) => { this.handleSubmit(this.state.todo_to_add, event); }}>Add To-do</Button>
+                    <FormControl as="select" custom onChange={(event) => { this.setState({status: event.target.value}); }}>
+                        <option id="urgent" value="urgent" >Urgent</option>
+                        <option id="medium" value="medium" >Medium</option>
+                        <option id="noturgent" value="noturgent" >Not urgent</option>
+                    </FormControl>
+                    <Button style={{ marginLeft: "10px"}} variant="outline-success" onClick={(event) => { this.handleSubmit(this.state.todo_to_add, this.state.status, event); }}>Add To-do</Button>
                 </Form>
             </Navbar>
         );

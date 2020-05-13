@@ -1,0 +1,15 @@
+option{
+    font-weight: bold;
+}
+
+option#urgent{
+    color: rgb(179, 0, 0);
+}
+
+option#medium{
+    color: rgb(209, 209, 0);
+}
+
+option#noturgent{
+    color: rgb(5, 160, 44);
+}
