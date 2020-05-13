@@ -7,7 +7,9 @@ class MyTodos extends Component {
         super(props);
 
         this.state = {
-            todos: []
+            todos: [],
+
+            timeout: null,
         }
 
         this.allStorage = this.allStorage.bind(this);
@@ -21,13 +23,13 @@ class MyTodos extends Component {
             i = keys.length;
 
         while (i--) {
-            try{
+            try {
                 let obj = JSON.parse(localStorage.getItem(keys[i]));
                 values.push({ id: keys[i], texto: obj.texto, status: obj.status });
             }
             catch {
                 let texto = localStorage.getItem(keys[i]);
-                values.push({ id: keys[i], texto: texto});
+                values.push({ id: keys[i], texto: texto });
             }
         }
 
@@ -39,6 +41,18 @@ class MyTodos extends Component {
             this.setState({
                 todos: this.allStorage(),
             });
+        }
+
+        Notification.requestPermission().then((response) => {
+            if ( response === 'granted') {
+                this.setState({ timeout: [setTimeout(new Notification("Come here do your todos!"), 900000)] });
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        if (this.state.timeout) {
+            clearTimeout(this.state.timeout);
         }
     }
 
