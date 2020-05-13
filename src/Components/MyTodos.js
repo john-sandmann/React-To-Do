@@ -21,14 +21,20 @@ class MyTodos extends Component {
             i = keys.length;
 
         while (i--) {
-            let obj = JSON.parse(localStorage.getItem(keys[i]));
-            values.push({ id: keys[i], texto: obj.texto, status: obj.status });
+            if (typeof (localStorage[keys[i]]) === 'object') {
+                let obj = JSON.parse(localStorage.getItem(keys[i]));
+                values.push({ id: keys[i], texto: obj.texto, status: obj.status });
+            }
+            else {
+                let obj = localStorage.getItem(keys[i]);
+                values.push({ id: keys[i], texto: obj.texto, status: obj.status });
+            }
         }
 
         return values;
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         if (localStorage) {
             this.setState({
                 todos: this.allStorage(),
