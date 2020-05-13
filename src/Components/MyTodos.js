@@ -21,11 +21,11 @@ class MyTodos extends Component {
             i = keys.length;
 
         while (i--) {
-            if (typeof (localStorage[keys[i]]) === 'object') {
+            try{
                 let obj = JSON.parse(localStorage.getItem(keys[i]));
                 values.push({ id: keys[i], texto: obj.texto, status: obj.status });
             }
-            else {
+            catch {
                 let texto = localStorage.getItem(keys[i]);
                 values.push({ id: keys[i], texto: texto});
             }
