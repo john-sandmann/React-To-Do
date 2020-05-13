@@ -8,9 +8,6 @@ class MyTodos extends Component {
 
         this.state = {
             todos: [],
-
-            timeout: null,
-            shouldSendNotification: false,
         }
 
         this.allStorage = this.allStorage.bind(this);
@@ -42,27 +39,6 @@ class MyTodos extends Component {
             this.setState({
                 todos: this.allStorage(),
             });
-        }
-
-        Notification.requestPermission().then((response) => {
-            if ( response === 'granted') {
-                this.setState({ timeout: [setTimeout(() => {
-                    if(this.state.shouldSendNotification){
-                        new Notification("Come here do your todos!")
-                    }
-                    else{
-                        this.setState({
-                            shouldSendNotification: true
-                        });
-                    }
-                }, 900000)] });
-            }
-        });
-    }
-
-    componentWillUnmount() {
-        if (this.state.timeout) {
-            clearTimeout(this.state.timeout);
         }
     }
 
