@@ -26,8 +26,8 @@ class MyTodos extends Component {
                 values.push({ id: keys[i], texto: obj.texto, status: obj.status });
             }
             else {
-                let obj = localStorage.getItem(keys[i]);
-                values.push({ id: keys[i], texto: obj.texto, status: obj.status });
+                let texto = localStorage.getItem(keys[i]);
+                values.push({ id: keys[i], texto: texto});
             }
         }
 
