@@ -23,11 +23,16 @@ class MyTodos extends Component {
         while (i--) {
             try {
                 let obj = JSON.parse(localStorage.getItem(keys[i]));
-                values.push({ id: keys[i], texto: obj.texto, status: obj.status });
+                values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
             }
             catch {
-                let texto = localStorage.getItem(keys[i]);
-                values.push({ id: keys[i], texto: texto });
+                try {
+                    let obj = JSON.parse(localStorage.getItem(keys[i]));
+                    values.push({ id: keys[i], texto: obj.texto, status: obj.status });
+                } catch (e) {
+                    let texto = localStorage.getItem(keys[i]);
+                    values.push({ id: keys[i], texto: texto });
+                }
             }
         }
 
@@ -57,8 +62,16 @@ class MyTodos extends Component {
 
     renderTodo = (todo, index) => {
 
+        var renderText = (texto, date) => {
+            if (date) {
+                return `${texto} (${date})`;
+            }
+            else {
+                return texto;
+            }
+        }
+
         var renderStatus = (status) => {
-            console.log(status);
             switch (status) {
                 case 'urgent':
                     return <div style={{ 'marginLeft': '30px', 'backgroundColor': 'rgb(179, 0, 0)', 'width': '30px', 'height': '30px', 'borderRadius': '50%' }}></div>
@@ -96,7 +109,7 @@ class MyTodos extends Component {
             return <ListGroup.Item key={index}>
 
                 <div style={{ 'display': 'flex', 'flexDirection': 'row' }} className="align">
-                    {todo.texto}
+                    {renderText(todo.texto, todo.date)}
                     {renderStatus(todo.status)}
                     {renderSelect(todo.status)}
                 </div>
@@ -110,7 +123,7 @@ class MyTodos extends Component {
                     onClick={() => { this.del(todo.id) }}
                 >
                     X
-        </Button>
+                </Button>
 
             </ListGroup.Item>
         }
