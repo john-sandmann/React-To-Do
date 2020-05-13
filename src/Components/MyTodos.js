@@ -28,7 +28,7 @@ class MyTodos extends Component {
             catch {
                 try {
                     let obj = JSON.parse(localStorage.getItem(keys[i]));
-                    values.push({ id: keys[i], texto: obj.texto, status: obj.status });
+                    values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
                 } catch (e) {
                     let texto = localStorage.getItem(keys[i]);
                     values.push({ id: keys[i], texto: texto });

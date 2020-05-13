@@ -9,7 +9,7 @@ class MyNavbar extends Component {
         this.state = {
             todo_to_add: '',
             status: 'urgent',
-            date: new Date().getDay() + '/' + new Date().getMonth() + '/' + new Date().getFullYear(),
+            date: new Date().getDate() + '/' + ( new Date().getMonth() + 1 ) + '/' + new Date().getFullYear(),
         }
 
         this.date = React.createRef();
