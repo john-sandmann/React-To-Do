@@ -62,7 +62,7 @@ class MyCalendar extends Component {
                 this.props.tasks.map((task, i) => {
                     if (task.date) {
                         if (task.date.match(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)) {
-                            if (task.date.slice(0, 2).replace('/', '') == d && task.date.split('/')[1] == this.monthNumber() && task.date.substring(task.date.length - 4) == this.year()) {
+                            if (task.date.split('/')[0] == d && task.date.split('/')[1] == this.monthNumber() && task.date.split('/')[2] == this.year()) {
                                 if(!className.includes(' taskday')){
                                     className += ' taskday'
                                 }
