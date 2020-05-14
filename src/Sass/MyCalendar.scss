@@ -1,0 +1,35 @@
+.current-day {
+  background-color: rgb(41, 40, 40) !important;
+  color: white;
+}
+
+.day {
+  padding: 10px;
+}
+
+.weekday {
+  padding: 10px;
+}
+
+.taskday {
+  background-color: rgb(172, 172, 255);
+}
+
+.day .tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  background-color: rgba(31, 31, 31, 0.555);
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.day:hover .tooltiptext {
+    visibility: visible;
+  }

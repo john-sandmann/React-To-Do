@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ListGroup, Button, FormControl } from 'react-bootstrap';
 
+import MyCalendar from './MyCalendar';
+
 class MyTodos extends Component {
 
     constructor(props) {
@@ -148,11 +150,23 @@ class MyTodos extends Component {
 
     render() {
         return (
+            <div className="todos">
+                <div style={{
+                    'display': 'flex',
+                    'alignItems': 'center',
+                    'justifyContent': 'center',
+                    'flexDirection': 'column',
+                        'textAlign': 'center',
+                        'alignItems': 'center',
+                }} className="center">
+                    <MyCalendar tasks={this.state.todos}/>
+            </div>
             <ListGroup>
                 {this.state.todos.map((todo, index) => {
                     return this.renderTodo(todo, index);
                 })}
             </ListGroup>
+            </div >
         );
     }
 }
