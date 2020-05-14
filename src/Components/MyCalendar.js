@@ -62,13 +62,13 @@ class MyCalendar extends Component {
                 this.props.tasks.map((task, i) => {
                     if (task.date) {
                         if (task.date.match(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)) {
-                            if (task.date.slice(0, 2) == d && (task.date.slice(3, 5) == this.monthNumber() || task.date.slice(3, 4) == this.monthNumber()) && task.date.substring(task.date.length - 4) == this.year()) {
+                            if (task.date.slice(0, 2).replace('/', '') == d && task.date.split('/')[1] == this.monthNumber() && task.date.substring(task.date.length - 4) == this.year()) {
                                 if(!className.includes(' taskday')){
                                     className += ' taskday'
                                 }
                                 tasks.push(task.texto);
                                 tooltiptext = <span className='tooltiptext'>{tasks.map((task) => {
-                                    return task + ' | '
+                                    return task + ' | ';
                                 })}</span>
                             }
                         }
