@@ -57,13 +57,19 @@ class MyCalendar extends Component {
         for (let d = 1; d <= this.daysInMonth(); d++) {
             let className = (d == this.currentDay() ? 'day current-day' : 'day');
             var tooltiptext = null;
+            let tasks = [];
             if (this.props.tasks) {
                 this.props.tasks.map((task, i) => {
                     if (task.date) {
                         if (task.date.match(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)) {
                             if (task.date.slice(0, 2) == d && (task.date.slice(3, 5) == this.monthNumber() || task.date.slice(3, 4) == this.monthNumber()) && task.date.substring(task.date.length - 4) == this.year()) {
-                                className += ' taskday'
-                                tooltiptext = <span className='tooltiptext'>{task.texto}</span>
+                                if(!className.includes(' taskday')){
+                                    className += ' taskday'
+                                }
+                                tasks.push(task.texto);
+                                tooltiptext = <span className='tooltiptext'>{tasks.map((task) => {
+                                    return task + ' | '
+                                })}</span>
                             }
                         }
                     }
