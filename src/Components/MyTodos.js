@@ -41,6 +41,8 @@ class MyTodos extends Component {
         return values;
     }
 
+    numberOfTasks = () => Object.keys(localStorage).length;
+
     componentDidMount() {
         if (localStorage) {
             this.setState({
@@ -159,6 +161,7 @@ class MyTodos extends Component {
                         'textAlign': 'center',
                         'alignItems': 'center',
                 }} className="center">
+                    <h3 style={{'padding': '20px'}}>{this.numberOfTasks()} tasks ramaining</h3>
                     <MyCalendar tasks={this.state.todos}/>
             </div>
             <ListGroup>
