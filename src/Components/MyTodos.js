@@ -14,6 +14,7 @@ class MyTodos extends Component {
 
         this.allStorage = this.allStorage.bind(this);
         this.renderTodo = this.renderTodo.bind(this);
+        this.download = this.download.bind(this);
     }
 
     allStorage() {
@@ -62,6 +63,30 @@ class MyTodos extends Component {
         item.status = newStatus;
         item = JSON.stringify(item);
         localStorage.setItem(id, item);
+    }
+
+    download = () => {
+
+        let todos = [];
+        let keys = Object.keys(localStorage);
+        let i = keys.length;
+
+        while(i--) {
+            todos.push(JSON.parse(localStorage.getItem(keys[i])));
+            console.log(todos);
+        }
+
+        const htmlBlob = new Blob([JSON.stringify(todos)], { type: 'text/plain;charset=utf-8' });
+        const url = window.URL.createObjectURL(htmlBlob);
+
+        const a = document.createElement("a");
+        a.style = "display: none";
+        a.href = url;
+        a.download = 'json.txt';
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
     }
 
     renderTodo = (todo, index) => {
@@ -158,17 +183,18 @@ class MyTodos extends Component {
                     'alignItems': 'center',
                     'justifyContent': 'center',
                     'flexDirection': 'column',
-                        'textAlign': 'center',
-                        'alignItems': 'center',
+                    'textAlign': 'center',
+                    'alignItems': 'center',
                 }} className="center">
-                    <h3 style={{'padding': '20px'}}>{this.numberOfTasks()} tasks ramaining</h3>
-                    <MyCalendar tasks={this.state.todos}/>
-            </div>
-            <ListGroup>
-                {this.state.todos.map((todo, index) => {
-                    return this.renderTodo(todo, index);
-                })}
-            </ListGroup>
+                    <h3 style={{ 'padding': '20px' }}>{this.numberOfTasks()} tasks ramaining</h3>
+                    <MyCalendar tasks={this.state.todos} />
+                    <button onClick={this.download}>Download your to-dos to use them in another device</button>
+                </div>
+                <ListGroup>
+                    {this.state.todos.map((todo, index) => {
+                        return this.renderTodo(todo, index);
+                    })}
+                </ListGroup>
             </div >
         );
     }
