@@ -17,7 +17,8 @@
 
 .day .tooltiptext {
   visibility: hidden;
-  width: 100px;
+  width: 200px;
+  text-overflow: ellipsis;
   background-color: rgba(31, 31, 31, 0.555);
   color: #fff;
   font-size: 15px;
