@@ -69,10 +69,10 @@ class MyCalendar extends Component {
         for (let d = 1; d <= this.daysInMonth(); d++) {
             let className = (d == this.currentDay() ? 'day current-day' : 'day');
             if (this.props.tasks) {
-                this.props.tasks.map((task, i) => {
-                    if (task.date) {
-                        if (task.date.match(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)) {
-                            if (task.date.split('/')[0] == d && task.date.split('/')[1] == this.monthNumber() && task.date.split('/')[2] == this.year()) {
+                this.props.tasks.map((date, i) => {
+                    if (date) {
+                        if (date.match(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)) {
+                            if (date.split('/')[0] == d && date.split('/')[1] == this.monthNumber() && date.split('/')[2] == this.year()) {
                                 if (!className.includes(' taskday')) {
                                     className += ' taskday'
                                 }

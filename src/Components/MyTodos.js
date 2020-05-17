@@ -13,11 +13,30 @@ class MyTodos extends Component {
 
             applyFilter: false,
             filterDate: '',
+            allDates: this.allDates(),
         }
 
         this.allStorage = this.allStorage.bind(this);
         this.renderTodo = this.renderTodo.bind(this);
         this.applyFilter = this.applyFilter.bind(this);
+        this.allDates = this.allDates.bind(this);
+    }
+
+    allDates = () => { 
+        var dates = [],
+        keys = Object.keys(localStorage),
+        i = keys.length;
+
+        while (i--) {
+            try{
+                let obj = JSON.parse(localStorage[keys[i]]);
+                if(obj.date){
+                    dates.push(obj.date);
+                }
+            } catch (e) {}
+        }
+
+        return dates;
     }
 
     allStorage() {
@@ -27,7 +46,6 @@ class MyTodos extends Component {
             i = keys.length;
 
         while (i--) {
-            console.log("CALLING ALL STORAGE");
             try {
                 let obj = JSON.parse(localStorage.getItem(keys[i]));
                 if (this.state.applyFilter) {
@@ -170,7 +188,6 @@ class MyTodos extends Component {
     }
 
     applyFilter = (date) => {
-        console.log(date);
         if (date == this.state.filterDate) {
             this.setState({
                 filterDate: date,
@@ -202,7 +219,7 @@ class MyTodos extends Component {
                 }} className="center">
                     <h6 style={{ 'padding': '20px' }}>Any doubts or suggestions please contact <span style={{ 'fontWeight': '900' }}>potato.clicker28@gmail.com</span></h6>
                     <h3 style={{ 'padding': '20px' }}>{this.numberOfTasks()} tasks ramaining</h3>
-                    <MyCalendar tasks={this.state.todos} onClickDay={this.applyFilter} />
+                    <MyCalendar tasks={this.state.allDates} onClickDay={this.applyFilter} />
                     <Alert variant="info">
                         UPDATE: Now if you click on a day, instead of showing a tooltip, it filters all tasks by date
                     </Alert>
