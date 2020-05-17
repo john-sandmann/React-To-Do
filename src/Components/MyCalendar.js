@@ -13,6 +13,8 @@ class MyCalendar extends Component {
             today: moment(),
             showMonthPopup: false,
             showYearPopup: false,
+
+            selectedDate: '',
         }
 
         this.year = () => this.state.dateContext.format('Y');
@@ -34,6 +36,7 @@ class MyCalendar extends Component {
         this.weekdaysShort = moment.weekdaysShort();
 
         this.months = moment.months();
+
     }
 
     render() {
@@ -53,23 +56,26 @@ class MyCalendar extends Component {
             );
         }
 
+        this.handleSelectedDateChange = (date) => {
+            if (date == this.state.selectedDate) {
+                this.setState({ selectedDate: '' });
+            }
+            else {
+                this.setState({ selectedDate: date });
+            }
+        }
+
         let daysInMonth = [];
         for (let d = 1; d <= this.daysInMonth(); d++) {
             let className = (d == this.currentDay() ? 'day current-day' : 'day');
-            var tooltiptext = null;
-            let tasks = [];
             if (this.props.tasks) {
                 this.props.tasks.map((task, i) => {
                     if (task.date) {
                         if (task.date.match(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)) {
                             if (task.date.split('/')[0] == d && task.date.split('/')[1] == this.monthNumber() && task.date.split('/')[2] == this.year()) {
-                                if(!className.includes(' taskday')){
+                                if (!className.includes(' taskday')) {
                                     className += ' taskday'
                                 }
-                                tasks.push(task.texto);
-                                tooltiptext = <span className='tooltiptext'>{tasks.map((task) => {
-                                    return task + ' | ';
-                                })}</span>
                             }
                         }
                     }
@@ -77,8 +83,7 @@ class MyCalendar extends Component {
             }
             daysInMonth.push(
                 <td key={d} className={className}>
-                    {className == 'day current-day taskday' || className == 'day taskday' ? tooltiptext : <span className='tooltiptext'>Nothing for this day</span>}
-                    <span>{d}</span>
+                    <span style={{ 'cursor': 'pointer', 'fontWeight': this.state.selectedDate === `${d}/${this.monthNumber()}/${this.year()}` ? '900' : '200' }} onClick={() => { this.props.onClickDay(`${d}/${this.monthNumber()}/${this.year()}`); this.handleSelectedDateChange(`${d}/${this.monthNumber()}/${this.year()}`); }}>{d}</span>
                 </td>
             );
         }

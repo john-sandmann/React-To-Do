@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroup, Button, FormControl } from 'react-bootstrap';
+import { ListGroup, Button, FormControl, Alert } from 'react-bootstrap';
 
 import MyCalendar from './MyCalendar';
 
@@ -10,10 +10,14 @@ class MyTodos extends Component {
 
         this.state = {
             todos: [],
+
+            applyFilter: false,
+            filterDate: '',
         }
 
         this.allStorage = this.allStorage.bind(this);
         this.renderTodo = this.renderTodo.bind(this);
+        this.applyFilter = this.applyFilter.bind(this);
     }
 
     allStorage() {
@@ -23,14 +27,29 @@ class MyTodos extends Component {
             i = keys.length;
 
         while (i--) {
+            console.log("CALLING ALL STORAGE");
             try {
                 let obj = JSON.parse(localStorage.getItem(keys[i]));
-                values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
+                if (this.state.applyFilter) {
+                    if (this.state.filterDate == obj.date) {
+                        values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
+                    }
+                }
+                else {
+                    values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
+                }
             }
             catch {
                 try {
                     let obj = JSON.parse(localStorage.getItem(keys[i]));
-                    values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
+                    if (this.state.applyFilter) {
+                        if (this.state.filterDate == obj.date) {
+                            values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
+                        }
+                    }
+                    else {
+                        values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
+                    }
                 } catch (e) {
                     let texto = localStorage.getItem(keys[i]);
                     values.push({ id: keys[i], texto: texto });
@@ -150,6 +169,26 @@ class MyTodos extends Component {
         }
     }
 
+    applyFilter = (date) => {
+        console.log(date);
+        if (date == this.state.filterDate) {
+            this.setState({
+                filterDate: date,
+                applyFilter: false
+            }, () => {
+                this.setState({ todos: this.allStorage() });
+            });
+        }
+        else {
+            this.setState({
+                filterDate: date,
+                applyFilter: true
+            }, () => {
+                this.setState({ todos: this.allStorage() });
+            });
+        }
+    }
+
     render() {
         return (
             <div className="todos">
@@ -162,15 +201,18 @@ class MyTodos extends Component {
                     'alignItems': 'center',
                 }} className="center">
                     <h6 style={{ 'padding': '20px' }}>Any doubts or suggestions please contact <span style={{ 'fontWeight': '900' }}>potato.clicker28@gmail.com</span></h6>
-                        <h3 style={{ 'padding': '20px' }}>{this.numberOfTasks()} tasks ramaining</h3>
-                        <MyCalendar tasks={this.state.todos} />
+                    <h3 style={{ 'padding': '20px' }}>{this.numberOfTasks()} tasks ramaining</h3>
+                    <MyCalendar tasks={this.state.todos} onClickDay={this.applyFilter} />
+                    <Alert variant="info">
+                        UPDATE: Now if you click on a day, instead of showing a tooltip, it filters all tasks by date
+                    </Alert>
                 </div>
-                    <ListGroup>
-                        {this.state.todos.map((todo, index) => {
-                            return this.renderTodo(todo, index);
-                        })}
-                    </ListGroup>
-                </div >
+                <ListGroup>
+                    {this.state.todos.map((todo, index) => {
+                        return this.renderTodo(todo, index);
+                    })}
+                </ListGroup>
+            </div >
         );
     }
 }
