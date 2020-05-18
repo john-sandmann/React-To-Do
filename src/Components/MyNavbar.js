@@ -20,7 +20,7 @@ class MyNavbar extends Component {
 
     add(texto, status, date) {
         if (localStorage) {
-            localStorage.setItem(this.makeid(10), JSON.stringify({ texto: texto, status: status, date: date }));
+            localStorage.setItem(this.makeid(30), JSON.stringify({ texto: texto, status: status, date: date }));
             window.location.reload();
         }
         else {

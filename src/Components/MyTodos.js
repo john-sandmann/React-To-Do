@@ -20,20 +20,21 @@ class MyTodos extends Component {
         this.renderTodo = this.renderTodo.bind(this);
         this.applyFilter = this.applyFilter.bind(this);
         this.allDates = this.allDates.bind(this);
+        this.wrapURLs = this.wrapURLs.bind(this);
     }
 
-    allDates = () => { 
+    allDates = () => {
         var dates = [],
-        keys = Object.keys(localStorage),
-        i = keys.length;
+            keys = Object.keys(localStorage),
+            i = keys.length;
 
         while (i--) {
-            try{
+            try {
                 let obj = JSON.parse(localStorage[keys[i]]);
-                if(obj.date){
+                if (obj.date) {
                     dates.push(obj.date);
                 }
-            } catch (e) {}
+            } catch (e) { }
         }
 
         return dates;
@@ -101,14 +102,25 @@ class MyTodos extends Component {
         localStorage.setItem(id, item);
     }
 
+    wrapURLs = (text, new_window) => {
+        var url_pattern = /(?:(?:https?|ftp):\/\/)?(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}\-\x{ffff}0-9]+-?)*[a-z\x{00a1}\-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}\-\x{ffff}0-9]+-?)*[a-z\x{00a1}\-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}\-\x{ffff}]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?/ig;
+        var target = (new_window === true || new_window == null) ? '_blank' : '';
+
+        return text.replace(url_pattern, function (url) {
+            var protocol_pattern = /^(?:(?:https?|ftp):\/\/)/i;
+            var href = protocol_pattern.test(url) ? url : 'http://' + url;
+            return '<a href="' + href + '" target="' + target + '">' + url + '</a>';
+        });
+    };
+
     renderTodo = (todo, index) => {
 
         var renderText = (texto, date) => {
             if (date) {
-                return `${texto} (${date})`;
+                return this.wrapURLs(texto) + `(${date})`;
             }
             else {
-                return texto;
+                return this.wrapURLs(texto);
             }
         }
 
@@ -150,7 +162,7 @@ class MyTodos extends Component {
             return <ListGroup.Item key={index}>
 
                 <div style={{ 'display': 'flex', 'flexDirection': 'row' }} className="align">
-                    {renderText(todo.texto, todo.date)}
+                    <span dangerouslySetInnerHTML={{ __html:renderText(todo.texto, todo.date)}}></span>
                     {renderStatus(todo.status)}
                     {renderSelect(todo.status)}
                 </div>
@@ -170,7 +182,7 @@ class MyTodos extends Component {
         }
         else {
             return <ListGroup.Item key={index}>
-                {todo.texto}
+                <span dangerouslySetInnerHTML={{ __html:renderText(todo.texto, todo.date)}}></span>
 
                 <Button
                     className='delete_button'
