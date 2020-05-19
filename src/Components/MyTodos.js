@@ -159,7 +159,7 @@ class MyTodos extends Component {
         }
 
         if (todo.status) {
-            return <ListGroup.Item key={index}>
+            return <ListGroup.Item className="todo" key={index}>
 
                 <div style={{ 'display': 'flex', 'flexDirection': 'row' }} className="align">
                     <span dangerouslySetInnerHTML={{ __html:renderText(todo.texto, todo.date)}}></span>
@@ -181,7 +181,7 @@ class MyTodos extends Component {
             </ListGroup.Item>
         }
         else {
-            return <ListGroup.Item key={index}>
+            return <ListGroup.Item className="todo" key={index}>
                 <span dangerouslySetInnerHTML={{ __html:renderText(todo.texto, todo.date)}}></span>
 
                 <Button
@@ -202,7 +202,7 @@ class MyTodos extends Component {
     applyFilter = (date) => {
         if (date == this.state.filterDate) {
             this.setState({
-                filterDate: date,
+                filterDate: '',
                 applyFilter: false
             }, () => {
                 this.setState({ todos: this.allStorage() });
