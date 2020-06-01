@@ -50,7 +50,7 @@ class MyTodos extends Component {
             try {
                 let obj = JSON.parse(localStorage.getItem(keys[i]));
                 if (this.state.applyFilter) {
-                    if (this.state.filterDate == obj.date) {
+                    if (parseInt(this.state.filterDate.split('/')[0]) == parseInt(obj.date.split('/')[0]) && parseInt(this.state.filterDate.split('/')[1]) == parseInt(obj.date.split('/')[1]) && parseInt(this.state.filterDate.split('/')[2]) == parseInt(obj.date.split('/')[2])) {
                         values.push({ id: keys[i], texto: obj.texto, status: obj.status, date: obj.date });
                     }
                 }

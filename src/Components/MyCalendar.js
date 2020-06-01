@@ -72,7 +72,7 @@ class MyCalendar extends Component {
                 this.props.tasks.map((date, i) => {
                     if (date) {
                         if (date.match(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)) {
-                            if (date.split('/')[0] == d && date.split('/')[1] == this.monthNumber() && date.split('/')[2] == this.year()) {
+                            if (parseInt(date.split('/')[0]) == parseInt(d) && parseInt(date.split('/')[1]) == parseInt(this.monthNumber()) && parseInt(date.split('/')[2]) == parseInt(this.year())) {
                                 if (!className.includes(' taskday')) {
                                     className += ' taskday'
                                 }
@@ -83,7 +83,7 @@ class MyCalendar extends Component {
             }
             daysInMonth.push(
                 <td key={d} className={className}>
-                    <span style={{ 'cursor': 'pointer', 'fontWeight': this.state.selectedDate === `${d}/${this.monthNumber()}/${this.year()}` ? '900' : '200' }} onClick={() => { this.props.onClickDay(`${d}/${this.monthNumber()}/${this.year()}`); this.handleSelectedDateChange(`${d}/${this.monthNumber()}/${this.year()}`); }}>{d}</span>
+                    <span style={{ 'cursor': 'pointer', 'fontWeight': this.state.selectedDate.split('/')[0] == d && this.state.selectedDate.split('/')[1] == this.monthNumber() && this.state.selectedDate.split('/')[2] == this.year() ? '900' : '200' }} onClick={() => { this.props.onClickDay(`${d}/${this.monthNumber()}/${this.year()}`); this.handleSelectedDateChange(`${d}/${this.monthNumber()}/${this.year()}`); }}>{d}</span>
                 </td>
             );
         }
